@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  nethermind:
+    container_name: nethermind
+    image: nethermind/nethermind:latest
+    restart: always
+    command: --config helperchain
+    stop_grace_period: 1m
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+    volumes:
+      - ./genesis:/config/genesis
+      - ./helperchain.cfg:/nethermind/configs/helperchain.cfg
+      - ./static-nodes.json:/nethermind/Data/static-nodes.json
+      - ./nethermind_db:/nethermind/nethermind_db
+      - ./keystore:/nethermind/keystore
+    environment:
+      NETHERMIND_CONFIG : helperchain
+    logging:
+      driver: "local"
+ 
